@@ -1,0 +1,55 @@
+---
+title: "Exploring the Sketcher Package"
+output: html_notebook
+---
+
+Quick exploration of the sketcher package: https://htsuda.net/sketcher/
+
+
+```{r setup}
+library(tidyverse)
+library(sketcher)
+
+# load an image
+# img = im_load("images/tim_wilson.jpg")
+img = im_load("images/ring-billed-gulls-on-ice.jpg")
+
+```
+
+### The Original Image
+
+```{r original}
+plot(img)
+```
+
+### Variations of Style and Lineweight
+
+**(Default) Style = 1 | Lineweight = 1**
+
+```{r}
+img_sketch_s1_l1 = sketch(img, style = 1, lineweight = 1) 
+plot(img_sketch_s1_l1)
+```
+
+**Style = 1 | Lineweight = 3**
+
+```{r}
+img_sketch_s1_l3 = sketch(img, style = 1, lineweight = 3) 
+plot(img_sketch_s1_l3)
+```
+
+**Style = 2 | Lineweight = 1**
+
+```{r}
+img_sketch_s2_l1 = sketch(img, style = 2, lineweight = 1) 
+plot(img_sketch_s2_l1)
+```
+
+**Style = 2 | Lineweight = 3**
+
+```{r}
+img_sketch_s2_l3 = sketch(img, style = 2, lineweight = 3) 
+plot(img_sketch_s2_l3)
+```
+
+
