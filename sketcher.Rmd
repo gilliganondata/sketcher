@@ -1,54 +1,88 @@
 ---
 title: "Exploring the Sketcher Package"
-output: html_notebook
+output: html_document
 ---
 
 Quick exploration of the sketcher package: https://htsuda.net/sketcher/
 
 
-```{r setup}
+```{r setup, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(sketcher)
 
 # load an image
-img = im_load("images/ring-billed-gulls-on-ice.jpg")
+# img = im_load("images/ring-billed-gulls-on-ice.jpg")
+img = im_load("images/mallard-taking-flight.jpeg")
+
+
+# Set the different values to loop through
+vals_style = c(1, 2)
+vals_lineweight = c(1, 3, 6)
+vals_contrast = c(10, 30, 60)
+vals_shadow = c(0, 0.3, 0.5)
 
 ```
 
 ### The Original Image
 
-```{r original}
+```{r original, message=FALSE, warning=FALSE}
 plot(img)
 ```
 
 ### Variations of Style and Lineweight
 
-**(Default) Style = 1 | Lineweight = 1**
+This simply cycles through all of the various configured settings and combinations.
 
-```{r}
-img_sketch_s1_l1 = sketch(img, style = 1, lineweight = 1) 
-plot(img_sketch_s1_l1)
+```{r echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
+
+get_image <- function(img = face, style = 1, lineweight = 1, contrast = 1, shadow = 0){
+  
+  # Build the Plot Title (the settings for the image)
+  plot_title = paste0("Settings: style = ", style,
+                       ", lineweight = ", lineweight,
+                       ", contrast = ", contrast,
+                       ", shadow = ", shadow)
+
+  # Build the sketched image
+  proc_img <- sketch(im = img,
+                     style = style,
+                     lineweight = lineweight,
+                     contrast = contrast,
+                     shadow = shadow)
+  
+  # Output the Results
+  plot(proc_img)
+  title(main = plot_title)
+}
+
+# Cycle through all of the values
+for(style in vals_style){
+  for(lineweight in vals_lineweight){
+    for(contrast in vals_contrast){
+      for(shadow in vals_shadow){
+          get_image(img = img,
+                    style = style,
+                    lineweight = lineweight,
+                    contrast = contrast,
+                    shadow = shadow)
+      }
+    }
+  }
+}
+
 ```
 
-**Style = 1 | Lineweight = 3**
 
-```{r}
-img_sketch_s1_l3 = sketch(img, style = 1, lineweight = 3) 
-plot(img_sketch_s1_l3)
+### Save the Final
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
+
+#   final_img <- sketch(im = img,
+#                      style = 1,
+#                      lineweight = 1,
+#                      contrast = 60,
+#                      shadow = 0)
+# 
+# im_save(final_img, name = "mallard_flight", path = "output", format = "jpg", quality = .95)
+
 ```
-
-**Style = 2 | Lineweight = 1**
-
-```{r}
-img_sketch_s2_l1 = sketch(img, style = 2, lineweight = 1) 
-plot(img_sketch_s2_l1)
-```
-
-**Style = 2 | Lineweight = 3**
-
-```{r}
-img_sketch_s2_l3 = sketch(img, style = 2, lineweight = 3) 
-plot(img_sketch_s2_l3)
-```
-
-
